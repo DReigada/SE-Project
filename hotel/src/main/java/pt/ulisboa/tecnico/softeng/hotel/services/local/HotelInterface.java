@@ -21,6 +21,13 @@ import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomData;
 
 public class HotelInterface {
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteHotels() {
+		for (Hotel hotel : FenixFramework.getDomainRoot().getHotelSet()) {
+			hotel.delete();
+		}
+	}
+
 	@Atomic(mode = TxMode.READ)
 	public static List<HotelData> getHotels() {
 		return FenixFramework.getDomainRoot().getHotelSet().stream().map(h -> new HotelData(h))

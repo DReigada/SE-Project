@@ -20,6 +20,13 @@ import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityRe
 
 public class ActivityInterface {
 
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteActivitieProviders() {
+		for (ActivityProvider activityProvider : FenixFramework.getDomainRoot().getActivityProviderSet()) {
+			activityProvider.delete();
+		}
+	}
+
 	@Atomic(mode = TxMode.READ)
 	public static List<ActivityProviderData> getProviders() {
 		return FenixFramework.getDomainRoot().getActivityProviderSet().stream()

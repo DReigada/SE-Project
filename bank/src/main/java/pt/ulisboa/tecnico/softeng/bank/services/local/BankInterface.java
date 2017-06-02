@@ -18,8 +18,14 @@ import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.ClientData;
 
 public class BankInterface {
 
-	@Atomic(mode = TxMode.READ)
+	@Atomic(mode = TxMode.WRITE)
+	public static void deleteBanks() {
+		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
+			bank.delete();
+		}
+	}
 
+	@Atomic(mode = TxMode.READ)
 	public static List<BankData> getBanks() {
 		return FenixFramework.getDomainRoot().getBankSet().stream()
 				.sorted((b1, b2) -> b1.getName().compareTo(b2.getName())).map(b -> new BankData(b))
